@@ -1,0 +1,1980 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Bot.Connector.Teams</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Bot.Connector.Teams.TenantFilterAttribute">
+            <summary>
+            Filters request based on Tenant Id.
+            </summary>
+            <seealso cref="T:System.Web.Http.Filters.ActionFilterAttribute" />
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Teams.TenantFilterAttribute.tenantFiltering">
+            <summary>
+            The tenant filtering object with actual logic.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.TenantFilterAttribute.#cctor">
+            <summary>
+            Initializes static members of the <see cref="T:Microsoft.Bot.Connector.Teams.TenantFilterAttribute"/> class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.TenantFilterAttribute.OnActionExecutingAsync(System.Web.Http.Controllers.HttpActionContext,System.Threading.CancellationToken)">
+            <summary>
+            Called when request is received.
+            </summary>
+            <param name="actionContext">The action context.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Task tracking operation.</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.MentionTextLocation">
+            <summary>
+            Location at which AtMention should be added in text.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Teams.MentionTextLocation.PrependText">
+            <summary>
+            Adds mention to start of text. Note this edits Text property.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Teams.MentionTextLocation.AppendText">
+            <summary>
+            Adds mention to end of text. Note this edits Text property.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.ActivityExtensions">
+            <summary>
+            Activity extensions.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Teams.ActivityExtensions.MembersAddedEventName">
+            <summary>
+            The members added event name.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Teams.ActivityExtensions.MembersRemovedEventName">
+            <summary>
+            The members removed event name.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Teams.ActivityExtensions.ChannelCreatedEventName">
+            <summary>
+            The channel created event name.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Teams.ActivityExtensions.ChannelDeletedEventName">
+            <summary>
+            The channel deleted event name.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Teams.ActivityExtensions.ChannelRenamedEventName">
+            <summary>
+            The channel renamed event name.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Teams.ActivityExtensions.TeamRenamedEventName">
+            <summary>
+            The team renamed event name.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.ActivityExtensions.AddMentionToText``1(``0,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.Teams.MentionTextLocation,System.String)">
+            <summary>
+            Adds the mention text to an existing activity.
+            </summary>
+            <typeparam name="T">Message activity type.</typeparam>
+            <param name="activity">The activity.</param>
+            <param name="mentionedUser">The mentioned user.</param>
+            <param name="textLocation">Location at which AtMention text should be added to text.</param>
+            <param name="mentionText">The mention text.</param>
+            <returns>Activity with added mention.</returns>
+            <exception cref="T:Microsoft.Rest.ValidationException">Either mentioned user name or mentionText must have a value</exception>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.ActivityExtensions.NotifyUser``1(``0)">
+            <summary>
+            Notifies the user in direct conversation.
+            </summary>
+            <typeparam name="T">Type of message activity.</typeparam>
+            <param name="replyActivity">The reply activity.</param>
+            <returns>Modified activity.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.ActivityExtensions.GetConversationUpdateData(Microsoft.Bot.Connector.IConversationUpdateActivity)">
+            <summary>Gets the conversation update data.</summary>
+            <param name="activity">The activity.</param>
+            <returns>Channel event data.</returns>
+            <exception cref="T:System.Exception">
+            Failed to process channel data in Activity
+            or
+            ChannelData missing in Activity
+            </exception>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.ActivityExtensions.GetGeneralChannel(Microsoft.Bot.Connector.IActivity)">
+            <summary>
+            Gets the general channel for a team.
+            </summary>
+            <param name="activity">The activity.</param>
+            <returns>Channel data for general channel.</returns>
+            <exception cref="T:System.ArgumentException">Failed to process channel data in Activity</exception>
+            <exception cref="T:System.ArgumentNullException">ChannelData missing in Activity</exception>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.ActivityExtensions.CreateReplyToGeneralChannel(Microsoft.Bot.Connector.Activity,System.String,System.String)">
+            <summary>
+            Creates a reply for the General channel of the team.
+            </summary>
+            <param name="activity">Incoming activity.</param>
+            <param name="text">Reply text.</param>
+            <param name="locale">Locale information.</param>
+            <returns>New reply activity with General channel channel data.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.ActivityExtensions.GetTenantId(Microsoft.Bot.Connector.IActivity)">
+            <summary>Gets the tenant identifier.</summary>
+            <param name="activity">The activity.</param>
+            <returns>Tenant Id of the user who send the message.</returns>
+            <exception cref="T:System.ArgumentException">Failed to process channel data in Activity</exception>
+            <exception cref="T:System.ArgumentNullException">ChannelData missing in Activity</exception>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.ActivityExtensions.GetTextWithoutMentions(Microsoft.Bot.Connector.IMessageActivity)">
+            <summary>
+            Gets the activity text without mentions.
+            </summary>
+            <param name="activity">The activity.</param>
+            <returns>Text without mentions.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.ActivityExtensions.IsO365ConnectorCardActionQuery(Microsoft.Bot.Connector.IInvokeActivity)">
+            <summary>
+            Checks if the activity is a O365 connector card action query.
+            </summary>
+            <param name="activity">Incoming activity.</param>
+            <returns>True is activity is a actionable card query, false otherwise.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.ActivityExtensions.GetO365ConnectorCardActionQueryData(Microsoft.Bot.Connector.IInvokeActivity)">
+            <summary>
+            Gets O365 connector card action query data.
+            </summary>
+            <param name="activity">The activity.</param>
+            <returns>O365 connector card action query data.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.ActivityExtensions.IsSigninStateVerificationQuery(Microsoft.Bot.Connector.IInvokeActivity)">
+            <summary>
+            Checks if the activity is a signin state verification query.
+            </summary>
+            <param name="activity">Incoming activity.</param>
+            <returns>True is activity is a signin state verification query, false otherwise.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.ActivityExtensions.GetSigninStateVerificationQueryData(Microsoft.Bot.Connector.IInvokeActivity)">
+            <summary>
+            Gets signin state verification query data.
+            </summary>
+            <param name="activity">The activity.</param>
+            <returns>Signin state verification query data.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.ActivityExtensions.IsComposeExtensionQuery(Microsoft.Bot.Connector.IInvokeActivity)">
+            <summary>
+            Checks if the activity is a compose extension query.
+            </summary>
+            <param name="activity">Incoming activity.</param>
+            <returns>True is activity is a compose extension query, false otherwise.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.ActivityExtensions.GetComposeExtensionQueryData(Microsoft.Bot.Connector.IInvokeActivity)">
+            <summary>
+            Gets the compose extension query data.
+            </summary>
+            <param name="activity">The activity.</param>
+            <returns>Compose extension query data.</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.FileListItem">
+            <summary>
+            Content type for <see cref="T:Microsoft.Bot.Connector.Teams.Models.FileListItem"/>
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Teams.Models.FileListItem.ContentType">
+            <summary>
+            Content type to be used in the type property.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCard">
+            <summary>
+            Content type for <see cref="T:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCard"/>
+            </summary>
+            <summary>
+            O365 connector card
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCard.ContentType">
+            <summary>
+            Content type to be used in the type property.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCard.#ctor">
+            <summary>
+            Initializes a new instance of the O365ConnectorCard class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCard.#ctor(System.String,System.String,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardSection},System.Collections.Generic.IList{Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardActionBase})">
+            <summary>
+            Initializes a new instance of the O365ConnectorCard class.
+            </summary>
+            <param name="title">Title of the item</param>
+            <param name="text">Text for the card</param>
+            <param name="summary">Summary for the card</param>
+            <param name="themeColor">Theme color for the card</param>
+            <param name="sections">Set of sections for the current card</param>
+            <param name="potentialAction">Set of actions for the current
+            card</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCard.Title">
+            <summary>
+            Gets or sets title of the item
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCard.Text">
+            <summary>
+            Gets or sets text for the card
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCard.Summary">
+            <summary>
+            Gets or sets summary for the card
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCard.ThemeColor">
+            <summary>
+            Gets or sets theme color for the card
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCard.Sections">
+            <summary>
+            Gets or sets set of sections for the current card
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCard.PotentialAction">
+            <summary>
+            Gets or sets set of actions for the current card
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardViewAction">
+            <summary>
+            Content type for <see cref="T:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardViewAction"/>
+            </summary>
+            <summary>
+            O365 connector card ViewAction action
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardViewAction.Type">
+            <summary>
+            Content type to be used in the @type property.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardViewAction.#ctor">
+            <summary>
+            Initializes a new instance of the O365ConnectorCardViewAction
+            class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardViewAction.#ctor(System.String,System.String,System.String,System.Collections.Generic.IList{System.String})">
+            <summary>
+            Initializes a new instance of the O365ConnectorCardViewAction
+            class.
+            </summary>
+            <param name="type">Type of the action</param>
+            <param name="name">Name of the action that will be used as button
+            title</param>
+            <param name="id">Action Id</param>
+            <param name="target">Target urls, only the first url effective for
+            card button</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardViewAction.Target">
+            <summary>
+            Gets or sets target urls, only the first url effective for card
+            button
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardOpenUri">
+            <summary>
+            Content type for <see cref="T:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardOpenUri"/>
+            </summary>
+            <summary>
+            O365 connector card OpenUri action
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardOpenUri.Type">
+            <summary>
+            Content type to be used in the @type property.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardOpenUri.#ctor">
+            <summary>
+            Initializes a new instance of the O365ConnectorCardOpenUri class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardOpenUri.#ctor(System.String,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardOpenUriTarget})">
+            <summary>
+            Initializes a new instance of the O365ConnectorCardOpenUri class.
+            </summary>
+            <param name="type">Type of the action</param>
+            <param name="name">Name of the action that will be used as button
+            title</param>
+            <param name="id">Action Id</param>
+            <param name="targets">Target os / urls</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardOpenUri.Targets">
+            <summary>
+            Gets or sets target os / urls
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardHttpPOST">
+            <summary>
+            Content type for <see cref="T:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardHttpPOST"/>
+            </summary>
+            <summary>
+            O365 connector card HttpPOST action
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardHttpPOST.Type">
+            <summary>
+            Content type to be used in the @type property.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardHttpPOST.#ctor">
+            <summary>
+            Initializes a new instance of the O365ConnectorCardHttpPOST class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardHttpPOST.#ctor(System.String,System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the O365ConnectorCardHttpPOST class.
+            </summary>
+            <param name="type">Type of the action</param>
+            <param name="name">Name of the action that will be used as button
+            title</param>
+            <param name="id">Action Id</param>
+            <param name="body">Content to be posted back to bots via
+            invoke</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardHttpPOST.Body">
+            <summary>
+            Gets or sets content to be posted back to bots via invoke
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardActionCard">
+            <summary>
+            Content type for <see cref="T:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardActionCard"/>
+            </summary>
+            <summary>
+            O365 connector card ActionCard action
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardActionCard.Type">
+            <summary>
+            Content type to be used in the @type property.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardActionCard.#ctor">
+            <summary>
+            Initializes a new instance of the O365ConnectorCardActionCard
+            class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardActionCard.#ctor(System.String,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardInputBase},System.Collections.Generic.IList{Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardActionBase})">
+            <summary>
+            Initializes a new instance of the O365ConnectorCardActionCard
+            class.
+            </summary>
+            <param name="type">Type of the action</param>
+            <param name="name">Name of the action that will be used as button
+            title</param>
+            <param name="id">Action Id</param>
+            <param name="inputs">Set of inputs contained in this ActionCard
+            whose each item can be in any subtype of
+            O365ConnectorCardInputBase</param>
+            <param name="actions">Set of actions contained in this ActionCard
+            whose each item can be in any subtype of
+            O365ConnectorCardActionBase except O365ConnectorCardActionCard,
+            as nested ActionCard is forbidden.</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardActionCard.Inputs">
+            <summary>
+            Gets or sets set of inputs contained in this ActionCard whose each
+            item can be in any subtype of O365ConnectorCardInputBase
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardActionCard.Actions">
+            <summary>
+            Gets or sets set of actions contained in this ActionCard whose
+            each item can be in any subtype of O365ConnectorCardActionBase
+            except O365ConnectorCardActionCard, as nested ActionCard is
+            forbidden.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardTextInput">
+            <summary>
+            Content type for <see cref="T:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardTextInput"/>
+            </summary>
+            <summary>
+            O365 connector card text input
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardTextInput.Type">
+            <summary>
+            Content type to be used in the @type property.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardTextInput.#ctor">
+            <summary>
+            Initializes a new instance of the O365ConnectorCardTextInput class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardTextInput.#ctor(System.String,System.String,System.Nullable{System.Boolean},System.String,System.String,System.Nullable{System.Boolean},System.Nullable{System.Double})">
+            <summary>
+            Initializes a new instance of the O365ConnectorCardTextInput class.
+            </summary>
+            <param name="type">Input type name</param>
+            <param name="id">Input Id. It must be unique per entire O365
+            connector card.</param>
+            <param name="isRequired">Define if this input is a required field.
+            Default value is false.</param>
+            <param name="title">Input title that will be shown as the
+            placeholder</param>
+            <param name="value">Default value for this input field</param>
+            <param name="isMultiline">Define if text input is allowed for
+            multiple lines. Default value is false.</param>
+            <param name="maxLength">Maximum length of text input. Default
+            value is unlimited.</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardTextInput.IsMultiline">
+            <summary>
+            Gets or sets define if text input is allowed for multiple lines.
+            Default value is false.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardTextInput.MaxLength">
+            <summary>
+            Gets or sets maximum length of text input. Default value is
+            unlimited.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardDateInput">
+            <summary>
+            Content type for <see cref="T:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardDateInput"/>
+            </summary>
+            <summary>
+            O365 connector card date input
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardDateInput.Type">
+            <summary>
+            Content type to be used in the @type property.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardDateInput.#ctor">
+            <summary>
+            Initializes a new instance of the O365ConnectorCardDateInput class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardDateInput.#ctor(System.String,System.String,System.Nullable{System.Boolean},System.String,System.String,System.Nullable{System.Boolean})">
+            <summary>
+            Initializes a new instance of the O365ConnectorCardDateInput class.
+            </summary>
+            <param name="type">Input type name</param>
+            <param name="id">Input Id. It must be unique per entire O365
+            connector card.</param>
+            <param name="isRequired">Define if this input is a required field.
+            Default value is false.</param>
+            <param name="title">Input title that will be shown as the
+            placeholder</param>
+            <param name="value">Default value for this input field</param>
+            <param name="includeTime">Include time input field. Default value
+            is false (date only).</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardDateInput.IncludeTime">
+            <summary>
+            Gets or sets include time input field. Default value  is false
+            (date only).
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardMultichoiceInput">
+            <summary>
+            Content type for <see cref="T:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardMultichoiceInput"/>
+            </summary>
+            <summary>
+            O365 connector card multiple choice input
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardMultichoiceInput.Type">
+            <summary>
+            Content type to be used in the @type property.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardMultichoiceInput.#ctor">
+            <summary>
+            Initializes a new instance of the
+            O365ConnectorCardMultichoiceInput class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardMultichoiceInput.#ctor(System.String,System.String,System.Nullable{System.Boolean},System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardMultichoiceInputChoice},System.String,System.Nullable{System.Boolean})">
+            <summary>
+            Initializes a new instance of the
+            O365ConnectorCardMultichoiceInput class.
+            </summary>
+            <param name="type">Input type name</param>
+            <param name="id">Input Id. It must be unique per entire O365
+            connector card.</param>
+            <param name="isRequired">Define if this input is a required field.
+            Default value is false.</param>
+            <param name="title">Input title that will be shown as the
+            placeholder</param>
+            <param name="value">Default value for this input field</param>
+            <param name="choices">Set of choices whose each item can be in any
+            subtype of O365ConnectorCardMultichoiceInputChoice.</param>
+            <param name="style">Choice item rendering style. Default valud is
+            'compact'. Possible values include: 'compact', 'expanded'</param>
+            <param name="isMultiSelect">Define if this input field allows
+            multiple selections. Default value is false.</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardMultichoiceInput.Choices">
+            <summary>
+            Gets or sets set of choices whose each item can be in any subtype
+            of O365ConnectorCardMultichoiceInputChoice.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardMultichoiceInput.Style">
+            <summary>
+            Gets or sets choice item rendering style. Default valud is
+            'compact'. Possible values include: 'compact', 'expanded'
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardMultichoiceInput.IsMultiSelect">
+            <summary>
+            Gets or sets define if this input field allows multiple
+            selections. Default value is false.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardExtensions">
+            <summary>
+             O365ConnectorCard extensions
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardExtensions.ToAttachment(Microsoft.Bot.Connector.Teams.Models.O365ConnectorCard)">
+            <summary>
+            Creates a new attachment from <see cref="T:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCard"/>.
+            </summary>
+            <param name="card"> The instance of <see cref="T:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCard"/>.</param>
+            <returns> The generated attachment.</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.ChannelInfo">
+            <summary>
+            A channel info object which decribes the channel.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.ChannelInfo.#ctor">
+            <summary>
+            Initializes a new instance of the ChannelInfo class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.ChannelInfo.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the ChannelInfo class.
+            </summary>
+            <param name="id">Unique identifier representing a channel</param>
+            <param name="name">Name of the channel</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.ChannelInfo.Id">
+            <summary>
+            Gets or sets unique identifier representing a channel
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.ChannelInfo.Name">
+            <summary>
+            Gets or sets name of the channel
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionAttachment">
+            <summary>
+            Compose extension attachment.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionAttachment.#ctor">
+            <summary>
+            Initializes a new instance of the ComposeExtensionAttachment class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionAttachment.#ctor(System.String,System.String,System.Object,System.String,System.String,Microsoft.Bot.Connector.Attachment)">
+            <summary>
+            Initializes a new instance of the ComposeExtensionAttachment class.
+            </summary>
+            <param name="contentType">mimetype/Contenttype for the file</param>
+            <param name="contentUrl">Content Url</param>
+            <param name="content">Embedded content</param>
+            <param name="name">(OPTIONAL) The name of the attachment</param>
+            <param name="thumbnailUrl">(OPTIONAL) Thumbnail associated with
+            attachment</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionAttachment.Preview">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionParameter">
+            <summary>
+            Compose extension query parameters
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionParameter.#ctor">
+            <summary>
+            Initializes a new instance of the ComposeExtensionParameter class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionParameter.#ctor(System.String,System.Object)">
+            <summary>
+            Initializes a new instance of the ComposeExtensionParameter class.
+            </summary>
+            <param name="name">Name of the parameter</param>
+            <param name="value">Value of the parameter</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionParameter.Name">
+            <summary>
+            Gets or sets name of the parameter
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionParameter.Value">
+            <summary>
+            Gets or sets value of the parameter
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionQuery">
+            <summary>
+            Compose extension query
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionQuery.#ctor">
+            <summary>
+            Initializes a new instance of the ComposeExtensionQuery class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionQuery.#ctor(System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.Teams.Models.ComposeExtensionParameter},Microsoft.Bot.Connector.Teams.Models.ComposeExtensionQueryOptions,System.String)">
+            <summary>
+            Initializes a new instance of the ComposeExtensionQuery class.
+            </summary>
+            <param name="commandId">Id of the command assigned by Bot</param>
+            <param name="parameters">Parameters for the query</param>
+            <param name="state">State parameter passed back to the bot after
+            authentication/configuration flow</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionQuery.CommandId">
+            <summary>
+            Gets or sets id of the command assigned by Bot
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionQuery.Parameters">
+            <summary>
+            Gets or sets parameters for the query
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionQuery.QueryOptions">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionQuery.State">
+            <summary>
+            Gets or sets state parameter passed back to the bot after
+            authentication/configuration flow
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionQueryOptions">
+            <summary>
+            Compose extensions query options
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionQueryOptions.#ctor">
+            <summary>
+            Initializes a new instance of the ComposeExtensionQueryOptions
+            class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionQueryOptions.#ctor(System.Nullable{System.Int32},System.Nullable{System.Int32})">
+            <summary>
+            Initializes a new instance of the ComposeExtensionQueryOptions
+            class.
+            </summary>
+            <param name="skip">Number of entities to skip</param>
+            <param name="count">Number of entities to fetch</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionQueryOptions.Skip">
+            <summary>
+            Gets or sets number of entities to skip
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionQueryOptions.Count">
+            <summary>
+            Gets or sets number of entities to fetch
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionResponse">
+            <summary>
+            Compose extension response
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionResponse.#ctor">
+            <summary>
+            Initializes a new instance of the ComposeExtensionResponse class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionResponse.#ctor(Microsoft.Bot.Connector.Teams.Models.ComposeExtensionResult)">
+            <summary>
+            Initializes a new instance of the ComposeExtensionResponse class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionResponse.ComposeExtension">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionResult">
+            <summary>
+            Compose extension result
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionResult.#ctor">
+            <summary>
+            Initializes a new instance of the ComposeExtensionResult class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionResult.#ctor(System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.Teams.Models.ComposeExtensionAttachment},Microsoft.Bot.Connector.Teams.Models.ComposeExtensionSuggestedAction,System.String)">
+            <summary>
+            Initializes a new instance of the ComposeExtensionResult class.
+            </summary>
+            <param name="attachmentLayout">Hint for how to deal with multiple
+            attachments.</param>
+            <param name="type">The type of the result</param>
+            <param name="attachments">(Only when type is result)
+            Attachments</param>
+            <param name="text">(Only when type is message) Text</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionResult.AttachmentLayout">
+            <summary>
+            Gets or sets hint for how to deal with multiple attachments.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionResult.Type">
+            <summary>
+            Gets or sets the type of the result
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionResult.Attachments">
+            <summary>
+            Gets or sets (Only when type is result) Attachments
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionResult.SuggestedActions">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionResult.Text">
+            <summary>
+            Gets or sets (Only when type is message) Text
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionSuggestedAction">
+            <summary>
+            Compose extension Actions (Only when type is auth or config)
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionSuggestedAction.#ctor">
+            <summary>
+            Initializes a new instance of the ComposeExtensionSuggestedAction
+            class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionSuggestedAction.#ctor(System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction})">
+            <summary>
+            Initializes a new instance of the ComposeExtensionSuggestedAction
+            class.
+            </summary>
+            <param name="actions">Actions</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.ComposeExtensionSuggestedAction.Actions">
+            <summary>
+            Gets or sets actions
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.ConversationList">
+            <summary>
+            List of channels under a team
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.ConversationList.#ctor">
+            <summary>
+            Initializes a new instance of the ConversationList class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.ConversationList.#ctor(System.Collections.Generic.IList{Microsoft.Bot.Connector.Teams.Models.ChannelInfo})">
+            <summary>
+            Initializes a new instance of the ConversationList class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.ConversationList.Conversations">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.NotificationInfo">
+            <summary>
+            Specifies if a notification is to be sent for the mentions.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.NotificationInfo.#ctor">
+            <summary>
+            Initializes a new instance of the NotificationInfo class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.NotificationInfo.#ctor(System.Nullable{System.Boolean})">
+            <summary>
+            Initializes a new instance of the NotificationInfo class.
+            </summary>
+            <param name="alert">true if notification is to be sent to the
+            user, false otherwise.</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.NotificationInfo.Alert">
+            <summary>
+            Gets or sets true if notification is to be sent to the user, false
+            otherwise.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardActionBase">
+            <summary>
+            O365 connector card action base
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardActionBase.#ctor">
+            <summary>
+            Initializes a new instance of the O365ConnectorCardActionBase
+            class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardActionBase.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the O365ConnectorCardActionBase
+            class.
+            </summary>
+            <param name="type">Type of the action</param>
+            <param name="name">Name of the action that will be used as button
+            title</param>
+            <param name="id">Action Id</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardActionBase.Type">
+            <summary>
+            Gets or sets type of the action
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardActionBase.Name">
+            <summary>
+            Gets or sets name of the action that will be used as button title
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardActionBase.Id">
+            <summary>
+            Gets or sets action Id
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardActionQuery">
+            <summary>
+            O365 connector card HttpPOST invoke query
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardActionQuery.#ctor">
+            <summary>
+            Initializes a new instance of the O365ConnectorCardActionQuery
+            class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardActionQuery.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the O365ConnectorCardActionQuery
+            class.
+            </summary>
+            <param name="body">The results of body string defined in
+            IO365ConnectorCardHttpPOST with substituted input values</param>
+            <param name="actionId">Action Id associated with the HttpPOST
+            action button triggered, defined in
+            O365ConnectorCardActionBase.</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardActionQuery.Body">
+            <summary>
+            Gets or sets the results of body string defined in
+            IO365ConnectorCardHttpPOST with substituted input values
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardActionQuery.ActionId">
+            <summary>
+            Gets or sets action Id associated with the HttpPOST action button
+            triggered, defined in O365ConnectorCardActionBase.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardFact">
+            <summary>
+            O365 connector card fact
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardFact.#ctor">
+            <summary>
+            Initializes a new instance of the O365ConnectorCardFact class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardFact.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the O365ConnectorCardFact class.
+            </summary>
+            <param name="name">Display name of the fact</param>
+            <param name="value">Display value for the fact</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardFact.Name">
+            <summary>
+            Gets or sets display name of the fact
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardFact.Value">
+            <summary>
+            Gets or sets display value for the fact
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardImage">
+            <summary>
+            O365 connector card image
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardImage.#ctor">
+            <summary>
+            Initializes a new instance of the O365ConnectorCardImage class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardImage.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the O365ConnectorCardImage class.
+            </summary>
+            <param name="image">URL for the image</param>
+            <param name="title">Alternative text for the image</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardImage.Image">
+            <summary>
+            Gets or sets URL for the image
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardImage.Title">
+            <summary>
+            Gets or sets alternative text for the image
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardInputBase">
+            <summary>
+            O365 connector card input for ActionCard action
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardInputBase.#ctor">
+            <summary>
+            Initializes a new instance of the O365ConnectorCardInputBase class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardInputBase.#ctor(System.String,System.String,System.Nullable{System.Boolean},System.String,System.String)">
+            <summary>
+            Initializes a new instance of the O365ConnectorCardInputBase class.
+            </summary>
+            <param name="type">Input type name</param>
+            <param name="id">Input Id. It must be unique per entire O365
+            connector card.</param>
+            <param name="isRequired">Define if this input is a required field.
+            Default value is false.</param>
+            <param name="title">Input title that will be shown as the
+            placeholder</param>
+            <param name="value">Default value for this input field</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardInputBase.Type">
+            <summary>
+            Gets or sets input type name
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardInputBase.Id">
+            <summary>
+            Gets or sets input Id. It must be unique per entire O365 connector
+            card.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardInputBase.IsRequired">
+            <summary>
+            Gets or sets define if this input is a required field. Default
+            value is false.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardInputBase.Title">
+            <summary>
+            Gets or sets input title that will be shown as the placeholder
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardInputBase.Value">
+            <summary>
+            Gets or sets default value for this input field
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardMultichoiceInputChoice">
+            <summary>
+            O365O365 connector card multiple choice input item
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardMultichoiceInputChoice.#ctor">
+            <summary>
+            Initializes a new instance of the
+            O365ConnectorCardMultichoiceInputChoice class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardMultichoiceInputChoice.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the
+            O365ConnectorCardMultichoiceInputChoice class.
+            </summary>
+            <param name="display">The text rednered on ActionCard.</param>
+            <param name="value">The value received as results.</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardMultichoiceInputChoice.Display">
+            <summary>
+            Gets or sets the text rednered on ActionCard.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardMultichoiceInputChoice.Value">
+            <summary>
+            Gets or sets the value received as results.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardOpenUriTarget">
+            <summary>
+            O365 connector card OpenUri target
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardOpenUriTarget.#ctor">
+            <summary>
+            Initializes a new instance of the O365ConnectorCardOpenUriTarget
+            class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardOpenUriTarget.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the O365ConnectorCardOpenUriTarget
+            class.
+            </summary>
+            <param name="os">Target operating system. Possible values include:
+            'default', 'iOS', 'android', 'windows'</param>
+            <param name="uri">Target url</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardOpenUriTarget.Os">
+            <summary>
+            Gets or sets target operating system. Possible values include:
+            'default', 'iOS', 'android', 'windows'
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardOpenUriTarget.Uri">
+            <summary>
+            Gets or sets target url
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardSection">
+            <summary>
+            O365 connector card section
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardSection.#ctor">
+            <summary>
+            Initializes a new instance of the O365ConnectorCardSection class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardSection.#ctor(System.String,System.String,System.String,System.String,System.String,System.String,System.Nullable{System.Boolean},System.Collections.Generic.IList{Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardFact},System.Collections.Generic.IList{Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardImage},System.Collections.Generic.IList{Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardActionBase})">
+            <summary>
+            Initializes a new instance of the O365ConnectorCardSection class.
+            </summary>
+            <param name="title">Title of the section</param>
+            <param name="text">Text for the section</param>
+            <param name="activityTitle">Activity title</param>
+            <param name="activitySubtitle">Activity subtitle</param>
+            <param name="activityText">Activity text</param>
+            <param name="activityImage">Activity image</param>
+            <param name="markdown">Use markdown for all text contents. Default
+            vaule is true.</param>
+            <param name="facts">Set of facts for the current section</param>
+            <param name="images">Set of images for the current section</param>
+            <param name="potentialAction">Set of actions for the current
+            section</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardSection.Title">
+            <summary>
+            Gets or sets title of the section
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardSection.Text">
+            <summary>
+            Gets or sets text for the section
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardSection.ActivityTitle">
+            <summary>
+            Gets or sets activity title
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardSection.ActivitySubtitle">
+            <summary>
+            Gets or sets activity subtitle
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardSection.ActivityText">
+            <summary>
+            Gets or sets activity text
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardSection.ActivityImage">
+            <summary>
+            Gets or sets activity image
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardSection.Markdown">
+            <summary>
+            Gets or sets use markdown for all text contents. Default vaule is
+            true.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardSection.Facts">
+            <summary>
+            Gets or sets set of facts for the current section
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardSection.Images">
+            <summary>
+            Gets or sets set of images for the current section
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.O365ConnectorCardSection.PotentialAction">
+            <summary>
+            Gets or sets set of actions for the current section
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.SigninStateVerificationQuery">
+            <summary>
+            Signin state (part of signin action auth flow) verification invoke
+            query
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.SigninStateVerificationQuery.#ctor">
+            <summary>
+            Initializes a new instance of the SigninStateVerificationQuery
+            class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.SigninStateVerificationQuery.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the SigninStateVerificationQuery
+            class.
+            </summary>
+            <param name="state"> The state string originally received when the
+            signin web flow is finished with a state posted back to client
+            via tab SDK
+            microsoftTeams.authentication.notifySuccess(state)</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.SigninStateVerificationQuery.State">
+            <summary>
+            Gets or sets  The state string originally received when the signin
+            web flow is finished with a state posted back to client via tab
+            SDK microsoftTeams.authentication.notifySuccess(state)
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.TeamDetails">
+            <summary>
+            Details related to a team
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.TeamDetails.#ctor">
+            <summary>
+            Initializes a new instance of the TeamDetails class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.TeamDetails.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the TeamDetails class.
+            </summary>
+            <param name="id">Unique identifier representing a team</param>
+            <param name="name">Name of team.</param>
+            <param name="aadGroupId">Azure Active Directory (AAD) Group Id for
+            the team.</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.TeamDetails.Id">
+            <summary>
+            Gets or sets unique identifier representing a team
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.TeamDetails.Name">
+            <summary>
+            Gets or sets name of team.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.TeamDetails.AadGroupId">
+            <summary>
+            Gets or sets azure Active Directory (AAD) Group Id for the team.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.TeamInfo">
+            <summary>
+            Describes a team
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.TeamInfo.#ctor">
+            <summary>
+            Initializes a new instance of the TeamInfo class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.TeamInfo.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the TeamInfo class.
+            </summary>
+            <param name="id">Unique identifier representing a team</param>
+            <param name="name">Name of team.</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.TeamInfo.Id">
+            <summary>
+            Gets or sets unique identifier representing a team
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.TeamInfo.Name">
+            <summary>
+            Gets or sets name of team.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.TeamsChannelAccount">
+            <summary>
+            Teams channel account detailing user Azure Active Directory details.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.TeamsChannelAccount.#ctor">
+            <summary>
+            Initializes a new instance of the TeamsChannelAccount class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.TeamsChannelAccount.#ctor(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the TeamsChannelAccount class.
+            </summary>
+            <param name="id">Channel id for the user or bot on this channel
+            (Example: joe@smith.com, or @joesmith or 123456)</param>
+            <param name="name">Display friendly name</param>
+            <param name="objectId">Unique Azure Active Directory object
+            Id.</param>
+            <param name="givenName">Given name part of the user name.</param>
+            <param name="surname">Surname part of the user name.</param>
+            <param name="email">Email Id of the user.</param>
+            <param name="userPrincipalName">Unique user principal name</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.TeamsChannelAccount.ObjectId">
+            <summary>
+            Gets or sets unique Azure Active Directory object Id.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.TeamsChannelAccount.GivenName">
+            <summary>
+            Gets or sets given name part of the user name.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.TeamsChannelAccount.Surname">
+            <summary>
+            Gets or sets surname part of the user name.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.TeamsChannelAccount.Email">
+            <summary>
+            Gets or sets email Id of the user.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.TeamsChannelAccount.UserPrincipalName">
+            <summary>
+            Gets or sets unique user principal name
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.TeamsChannelData">
+            <summary>
+            List of channels under a team
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.TeamsChannelData.#ctor">
+            <summary>
+            Initializes a new instance of the TeamsChannelData class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.TeamsChannelData.#ctor(Microsoft.Bot.Connector.Teams.Models.ChannelInfo,System.String,Microsoft.Bot.Connector.Teams.Models.TeamInfo,Microsoft.Bot.Connector.Teams.Models.NotificationInfo,Microsoft.Bot.Connector.Teams.Models.TenantInfo)">
+            <summary>
+            Initializes a new instance of the TeamsChannelData class.
+            </summary>
+            <param name="eventType">Type of event.</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.TeamsChannelData.Channel">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.TeamsChannelData.EventType">
+            <summary>
+            Gets or sets type of event.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.TeamsChannelData.Team">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.TeamsChannelData.Notification">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.TeamsChannelData.Tenant">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.Models.TenantInfo">
+            <summary>
+            Describes a tenant
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.TenantInfo.#ctor">
+            <summary>
+            Initializes a new instance of the TenantInfo class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.Models.TenantInfo.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the TenantInfo class.
+            </summary>
+            <param name="id">Unique identifier representing a tenant</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.Models.TenantInfo.Id">
+            <summary>
+            Gets or sets unique identifier representing a tenant
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.AttachmentExtensions">
+            <summary>
+            Attachment extensions.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.AttachmentExtensions.ToComposeExtensionAttachment(Microsoft.Bot.Connector.Attachment,Microsoft.Bot.Connector.Attachment)">
+            <summary>
+            Converts normal attachment into the compose extension attachment.
+            </summary>
+            <param name="attachment">The attachment.</param>
+            <param name="previewAttachment">The preview attachment.</param>
+            <returns>Compose extension attachment</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.ConversationExtensions">
+            <summary>
+            Extension methods for existing IConversation operations.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.ConversationExtensions.GetTeamsConversationMembersAsync(Microsoft.Bot.Connector.IConversations,System.String,System.String)">
+            <summary>
+            Gets teams conversation members asynchronously.
+            </summary>
+            <param name="conversations">Conversation instance.</param>
+            <param name="conversationId">Conversation Id.</param>
+            <param name="tenantId">Tenant Id for the conversation.</param>
+            <returns>List of members who are part of conversation.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.ConversationExtensions.AsTeamsChannelAccount(Microsoft.Bot.Connector.ChannelAccount)">
+            <summary>
+            Gets teams channel account data.
+            </summary>
+            <param name="channelAccount">Channel account instance.</param>
+            <returns>Teams channel account data.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.ConversationExtensions.AsTeamsChannelAccounts(System.Collections.Generic.IEnumerable{Microsoft.Bot.Connector.ChannelAccount})">
+            <summary>
+            Resolves channel account collection to extended teams channel account collection.
+            </summary>
+            <param name="channelAccountList">Collection of Channel account.</param>
+            <returns>Teams channel account collection.</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.ChannelCreatedEvent">
+            <summary>
+            Channel created event arguments.
+            </summary>
+            <seealso cref="T:Microsoft.Bot.Connector.Teams.TeamEventBase" />
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.ChannelCreatedEvent.EventType">
+            <summary>
+            Gets the event type.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.ChannelCreatedEvent.Channel">
+            <summary>
+            Gets the channel created.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.ChannelCreatedEvent.Team">
+            <summary>
+            Gets the team for the event.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.ChannelCreatedEvent.Tenant">
+            <summary>
+            Gets the tenant for the team.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.ChannelDeletedEvent">
+            <summary>
+            Channel deleted event arguments.
+            </summary>
+            <seealso cref="T:Microsoft.Bot.Connector.Teams.TeamEventBase" />
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.ChannelDeletedEvent.EventType">
+            <summary>
+            Gets the event type.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.ChannelDeletedEvent.Channel">
+            <summary>
+            Gets the channel deleted.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.ChannelDeletedEvent.Team">
+            <summary>
+            Gets the team for the event.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.ChannelDeletedEvent.Tenant">
+            <summary>
+            Gets the tenant for the team.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.TeamEventType">
+            <summary>
+            Type of team event.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Teams.TeamEventType.MembersAdded">
+            <summary>
+            Members added.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Teams.TeamEventType.MembersRemoved">
+            <summary>
+            Members removed.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Teams.TeamEventType.ChannelCreated">
+            <summary>
+            New channel created in a team.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Teams.TeamEventType.ChannelDeleted">
+            <summary>
+            Channel deleted from a team.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Teams.TeamEventType.ChannelRenamed">
+            <summary>
+            Channel was renamed.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Teams.TeamEventType.TeamRenamed">
+            <summary>
+            Team was renamed.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.TeamEventBase">
+            <summary>
+            Base class for events generated for teams.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.TeamEventBase.EventType">
+            <summary>
+            Gets the event type.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.TeamEventBase.Team">
+            <summary>
+            Gets the team for the event.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.TeamEventBase.Tenant">
+            <summary>
+            Gets the tenant for the team.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.ChannelRenamedEvent">
+            <summary>
+            Channel renamed event.
+            </summary>
+            <seealso cref="T:Microsoft.Bot.Connector.Teams.TeamEventBase" />
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.ChannelRenamedEvent.EventType">
+            <summary>
+            Gets the event type.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.ChannelRenamedEvent.Team">
+            <summary>
+            Gets the team for the event.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.ChannelRenamedEvent.Tenant">
+            <summary>
+            Gets the tenant for the team.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.ChannelRenamedEvent.Channel">
+            <summary>
+            Gets the details of the channel renamed.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.MembersAddedEvent">
+            <summary>
+            Event arguments for members added event.
+            </summary>
+            <seealso cref="T:Microsoft.Bot.Connector.Teams.TeamEventBase" />
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.MembersAddedEvent.EventType">
+            <summary>
+            Gets the event type.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.MembersAddedEvent.MembersAdded">
+            <summary>
+            Gets the members added.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.MembersAddedEvent.Team">
+            <summary>
+            Gets the team for the event.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.MembersAddedEvent.Tenant">
+            <summary>
+            Gets the tenant for the team.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.MembersRemovedEvent">
+            <summary>
+            Event arguments for members removed event.
+            </summary>
+            <seealso cref="T:Microsoft.Bot.Connector.Teams.TeamEventBase" />
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.MembersRemovedEvent.EventType">
+            <summary>
+            Gets the event type.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.MembersRemovedEvent.MembersRemoved">
+            <summary>
+            Gets the members added.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.MembersRemovedEvent.Team">
+            <summary>
+            Gets the team for the event.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.MembersRemovedEvent.Tenant">
+            <summary>
+            Gets the tenant for the team.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.TeamRenamedEvent">
+            <summary>
+            Team renamed event.
+            </summary>
+            <seealso cref="T:Microsoft.Bot.Connector.Teams.TeamEventBase" />
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.TeamRenamedEvent.EventType">
+            <summary>
+            Gets the event type.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.TeamRenamedEvent.Team">
+            <summary>
+            Gets the team for the event.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.TeamRenamedEvent.Tenant">
+            <summary>
+            Gets the tenant for the team.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.ITeamsOperations">
+            <summary>
+            TeamsOperations operations.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.ITeamsOperations.FetchChannelListWithHttpMessagesAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            Fetches channel list for a given team
+            </summary>
+            <remarks>
+            Fetch the channel list.
+            </remarks>
+            <param name='teamId'>
+            Team Id
+            </param>
+            <param name='customHeaders'>
+            The headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+            <exception cref="T:Microsoft.Rest.HttpOperationException">
+            Thrown when the operation returned an invalid status code
+            </exception>
+            <exception cref="T:Microsoft.Rest.SerializationException">
+            Thrown when unable to deserialize the response
+            </exception>
+            <exception cref="T:Microsoft.Rest.ValidationException">
+            Thrown when a required parameter is null
+            </exception>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.ITeamsOperations.FetchTeamDetailsWithHttpMessagesAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            Fetches details related to a team
+            </summary>
+            <remarks>
+            Fetch details for a team
+            </remarks>
+            <param name='teamId'>
+            Team Id
+            </param>
+            <param name='customHeaders'>
+            The headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+            <exception cref="T:Microsoft.Rest.HttpOperationException">
+            Thrown when the operation returned an invalid status code
+            </exception>
+            <exception cref="T:Microsoft.Rest.SerializationException">
+            Thrown when unable to deserialize the response
+            </exception>
+            <exception cref="T:Microsoft.Rest.ValidationException">
+            Thrown when a required parameter is null
+            </exception>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.TeamsOperations">
+            <summary>
+            TeamsOperations operations.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.TeamsOperations.#ctor(Microsoft.Bot.Connector.ConnectorClient)">
+            <summary>
+            Initializes a new instance of the TeamsOperations class.
+            </summary>
+            <param name='client'>
+            Reference to the service client.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when a required parameter is null
+            </exception>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.TeamsOperations.Client">
+            <summary>
+            Gets a reference to the ConnectorClient
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.TeamsOperations.FetchChannelListWithHttpMessagesAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            Fetches channel list for a given team
+            </summary>
+            <remarks>
+            Fetch the channel list.
+            </remarks>
+            <param name='teamId'>
+            Team Id
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+            <exception cref="T:Microsoft.Rest.HttpOperationException">
+            Thrown when the operation returned an invalid status code
+            </exception>
+            <exception cref="T:Microsoft.Rest.SerializationException">
+            Thrown when unable to deserialize the response
+            </exception>
+            <exception cref="T:Microsoft.Rest.ValidationException">
+            Thrown when a required parameter is null
+            </exception>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.TeamsOperations.FetchTeamDetailsWithHttpMessagesAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            Fetches details related to a team
+            </summary>
+            <remarks>
+            Fetch details for a team
+            </remarks>
+            <param name='teamId'>
+            Team Id
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+            <exception cref="T:Microsoft.Rest.HttpOperationException">
+            Thrown when the operation returned an invalid status code
+            </exception>
+            <exception cref="T:Microsoft.Rest.SerializationException">
+            Thrown when unable to deserialize the response
+            </exception>
+            <exception cref="T:Microsoft.Rest.ValidationException">
+            Thrown when a required parameter is null
+            </exception>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.TeamsOperationsExtensions">
+            <summary>
+            Extension methods for TeamsOperations.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.TeamsOperationsExtensions.FetchChannelList(Microsoft.Bot.Connector.Teams.ITeamsOperations,System.String)">
+            <summary>
+            Fetches channel list for a given team
+            </summary>
+            <remarks>
+            Fetch the channel list.
+            </remarks>
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='teamId'>
+            Team Id
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.TeamsOperationsExtensions.FetchChannelListAsync(Microsoft.Bot.Connector.Teams.ITeamsOperations,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Fetches channel list for a given team
+            </summary>
+            <remarks>
+            Fetch the channel list.
+            </remarks>
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='teamId'>
+            Team Id
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.TeamsOperationsExtensions.FetchTeamDetails(Microsoft.Bot.Connector.Teams.ITeamsOperations,System.String)">
+            <summary>
+            Fetches details related to a team
+            </summary>
+            <remarks>
+            Fetch details for a team
+            </remarks>
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='teamId'>
+            Team Id
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.TeamsOperationsExtensions.FetchTeamDetailsAsync(Microsoft.Bot.Connector.Teams.ITeamsOperations,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Fetches details related to a team
+            </summary>
+            <remarks>
+            Fetch details for a team
+            </remarks>
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='teamId'>
+            Team Id
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.TeamsConnectorClient">
+            <summary>
+            Extends Connector client to introduce Teams only functionality.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.TeamsConnectorClient.#ctor">
+            <summary>
+            Prevents a default instance of the <see cref="T:Microsoft.Bot.Connector.Teams.TeamsConnectorClient"/> class from being created.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Teams.TeamsConnectorClient.Teams">
+            <summary>
+            Gets the team operations.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.TeamsConnectorClient.Initialize(Microsoft.Bot.Connector.IConnectorClient)">
+            <summary>
+            Initializes client properties.
+            </summary>
+            <param name="connectorClient">The connector client.</param>
+            <returns>Teams connector client.</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Teams.TenantFiltering">
+            <summary>
+            Internal class with common logic for tenant filtering.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Teams.TenantFiltering.allowedTenants">
+            <summary>
+            The allowed tenants dictionary. Keys and Values are same here. It is just to allow O(1) lookups to reduce processing time.
+            Also the reason we are doing Guid comparison instead of string is to avoid taking care of case and extra spaces in tenant Id.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.TenantFiltering.#ctor(System.Collections.Generic.List{System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Connector.Teams.TenantFiltering"/> class.
+            </summary>
+            <param name="allowedTenants">The allowed tenants.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.TenantFiltering.GetActivities(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Gets the activities.
+            </summary>
+            <param name="actionContextArgs">The action context arguments.</param>
+            <returns>List of activities.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Teams.TenantFiltering.IsFromAllowedTenant(Microsoft.Bot.Connector.IActivity)">
+            <summary>
+            Determines whether request is from allowed tenant.
+            </summary>
+            <param name="activity">The list of activities.</param>
+            <returns>true if request is from allowed tenant false otherwise.</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.ConnectorClientExtensions">
+            <summary>
+            Connector client extensions.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConnectorClientExtensions.GetTeamsConnectorClient(Microsoft.Bot.Connector.IConnectorClient)">
+            <summary>
+            Gets the teams connector client.
+            </summary>
+            <param name="connectorClient">The connector client.</param>
+            <returns>Teams connector client.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConnectorClientExtensions.CreateOrGetDirectConversation(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ChannelAccount,System.String)">
+            <summary>
+            Creates or gets direct conversation between a bot and user.
+            </summary>
+            <param name="conversationClient">Conversation client instance.</param>
+            <param name="bot">Bot account.</param>
+            <param name="user">User to create conversation with.</param>
+            <param name="tenantId">TenantId of the user.</param>
+            <returns>Conversation creation or get response.</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.RetryHelpers">
+            <summary>
+            Helpers to allow retrying operation.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.RetryHelpers.PowerFactorBackoff">
+            <summary>
+            The power factor for the exponential backoff.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.RetryHelpers.retryStrategyMap">
+            <summary>
+            The retry strategy map
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.RetryHelpers.rng">
+            <summary>
+            The random number generator.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.RetryHelpers.defaultRetryPolicy">
+            <summary>
+            The default retry policy in case one is not chosen by developer.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.RetryHelpers.DefaultPolicyBuilder">
+            <summary>
+            Gets the default policy builder. This policy builder handles 429 and can be used to create custom backoff policies.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.RetryHelpers.SetRetryPolicy(Microsoft.Bot.Connector.IConnectorClient,Polly.Retry.RetryPolicy)">
+            <summary>
+            Sets the retry policy for a connector client.
+            </summary>
+            <param name="connectorClient">The connector client.</param>
+            <param name="retryPolicy">The retry policy.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.RetryHelpers.ReplyToActivityWithRetriesAsync(Microsoft.Bot.Connector.IConversations,System.String,System.String,Microsoft.Bot.Connector.Activity,System.Threading.CancellationToken)">
+            <summary>
+            Replies to activity with retries asynchronously.
+            </summary>
+            <param name="conversation">The conversation client instance.</param>
+            <param name="conversationId">The conversation identifier.</param>
+            <param name="activityId">The activity identifier.</param>
+            <param name="activity">The activity.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Resource response.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.RetryHelpers.ReplyToActivityWithRetriesAsync(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity,System.Threading.CancellationToken)">
+            <summary>
+            Replies to activity with retries asynchronously.
+            </summary>
+            <param name="conversation">The conversation client instance.</param>
+            <param name="activity">The activity.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Resource response.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.RetryHelpers.SendToConversationWithRetriesAsync(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity,System.Threading.CancellationToken)">
+            <summary>
+            Sends to conversation with retries asynchronously.
+            </summary>
+            <param name="conversation">The conversation.</param>
+            <param name="activity">The activity.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Resource response.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.RetryHelpers.SendToConversationWithRetriesAsync(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Sends to conversation with retries asynchronously.
+            </summary>
+            <param name="conversation">The conversation.</param>
+            <param name="activity">The activity.</param>
+            <param name="conversationId">The conversation identifier.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Resource response.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.RetryHelpers.UpdateActivityWithRetriesAsync(Microsoft.Bot.Connector.IConversations,System.String,System.String,Microsoft.Bot.Connector.Activity,System.Threading.CancellationToken)">
+            <summary>
+            Updates activity with retries asynchronously.
+            </summary>
+            <param name="conversation">The conversation client instance.</param>
+            <param name="conversationId">The conversation identifier.</param>
+            <param name="activityId">The activity identifier.</param>
+            <param name="activity">The activity.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Resource response.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.RetryHelpers.UpdateActivityWithRetriesAsync(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity,System.Threading.CancellationToken)">
+            <summary>
+            Updates activity with retries asynchronously.
+            </summary>
+            <param name="conversation">The conversation client instance.</param>
+            <param name="activity">The activity.</param>
+            <param name="cancellationToken">The cancellation token.</param>
+            <returns>Resource response.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.RetryHelpers.ExecuteWithRetries``1(System.Func{System.Threading.Tasks.Task{``0}},Microsoft.Bot.Connector.IConversations)">
+            <summary>
+            Executes the with retries.
+            </summary>
+            <typeparam name="T">Generic parameter for return type.</typeparam>
+            <param name="func">The function.</param>
+            <param name="conversation">The conversation.</param>
+            <returns>Task operation result.</returns>
+        </member>
+    </members>
+</doc>
