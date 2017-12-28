@@ -1,6 +1,7 @@
 Steps to deploy:
 
 1. Deploy to a Azure Web Services or use ngrok to create a tunnel. You will need to run the bot on a an http/s endpoint. Even though the bot isn't ready, we still need the URL that it will be using for the later steps.
+ a. start ngrok with "ngrok http -host-header=rewrite 3979"
 
 2. Create a Bot in Azure Bot Services under "Bot Channels Registration",
  a. Use your http endpoint during creation
