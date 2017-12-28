@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
@@ -6,6 +6,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using System.Collections.Generic;
 using System.Web.Configuration;
+using System.Text.RegularExpressions;
 
 namespace BridgeBot.Dialogs
 {
@@ -51,15 +52,21 @@ namespace BridgeBot.Dialogs
             //await context.PostAsync("Received...");
 
             //Remove incarnations of the bot's own name. You will need to replace these with the names of your bots as they occur within your unique environment.
-            string body = "\"" + userName + activity.Text + "\"";
-            body = body.Replace("<at>TestBot</at>", "").Replace("TestBot", "").Replace("@jerrythebot","");
+            var body = "\"" + userName + activity.Text + "\"";
+            body = Regex.Replace(body, WebConfigurationManager.AppSettings["BotId"], "", RegexOptions.IgnoreCase);
+            body = Regex.Replace(body, "@", "", RegexOptions.IgnoreCase);
+            body = Regex.Replace(body, "</*at>", "", RegexOptions.IgnoreCase);
 
+            //ServiceUrls, for reference
+            //Teams: https://smba.trafficmanager.net/amer-client-ss.msg/
+            //Slack: https://slack.botframework.com
+
+            // If from Teams, send message to Slack
             if (channelID.Equals("msteams"))
-            // Send message to Slack
             {
                 try
                 {
-                    Uri requestUri = new Uri(WebConfigurationManager.AppSettings["SlackURI"]); //replace your Url with a configurable from a .json
+                    Uri requestUri = new Uri(WebConfigurationManager.AppSettings["SlackURI"]);
                     var values = new Dictionary<string, string>
                     {
                         {"text", body}
@@ -73,11 +80,12 @@ namespace BridgeBot.Dialogs
                     await context.PostAsync("Error:" + hre.Message);
                 }
             }
-            else {
-            // Send message to Teams
+            // If from Slack, send message to Teams
+            else
+            {
             try
             {
-                Uri requestUri = new Uri(WebConfigurationManager.AppSettings["TeamsURI"]); //replace your Url with a configurable from a .json
+                Uri requestUri = new Uri(WebConfigurationManager.AppSettings["TeamsURI"]);
                 var values = new Dictionary<string, string>
                     {
                         {"text", body}
