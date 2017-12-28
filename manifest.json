@@ -1,0 +1,32 @@
+{
+  "$schema": "https://statics.teams.microsoft.com/sdk/v1.0/manifest/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.0",
+  "version": "1.0.0",
+  "id": "MicrosoftAppIdGoesHere",
+  "packageName": "570f8367.ngrok.io",
+  "developer": {
+    "name": "GC",
+    "websiteUrl":    "https://website.com/",
+    "privacyUrl":    "https://website.com/privacy",
+    "termsOfUseUrl": "https://website.com/app-tos"
+  },
+  "name": {
+    "short": "Bridge_Bot"
+  },
+  "description": {
+    "short": "A bridge",
+    "full": "Also a bot."
+  },
+  "icons": {
+    "outline":"outline.png",
+    "color": "color.png"
+  },
+  "accentColor": "#FFFFFF",
+  "bots": [
+    {
+      "botId": "MicrosoftAppIdGoesHere",
+      "needsChannelSelector":  "false",
+      "scopes": ["personal", "team"]
+    }
+  ]
+}
