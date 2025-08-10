@@ -61,35 +61,25 @@ namespace BridgeBot.Dialogs
             //Teams: https://smba.trafficmanager.net/amer-client-ss.msg/
             //Slack: https://slack.botframework.com
 
+            String appSettingsKey;
             // If from Teams, send message to Slack
             if (channelID.Equals("msteams"))
             {
-                try
-                {
-                    Uri requestUri = new Uri(WebConfigurationManager.AppSettings["SlackURI"]);
-                    var values = new Dictionary<string, string>
-                    {
-                        {"text", body}
-                    };
-                    var json = JsonConvert.SerializeObject(values);
-                    var objClint = new System.Net.Http.HttpClient();
-                    System.Net.Http.HttpResponseMessage respon = await objClint.PostAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
-                }
-                catch (HttpRequestException hre)
-                {
-                    await context.PostAsync("Error:" + hre.Message);
-                }
+                appSettingsKey = "SlackURI";
             }
             // If from Slack, send message to Teams
             else
             {
+                appSettingsKey = "TeamsURI";
+            }
+
             try
             {
-                Uri requestUri = new Uri(WebConfigurationManager.AppSettings["TeamsURI"]);
+                Uri requestUri = new Uri(WebConfigurationManager.AppSettings[appSettingsKey]);
                 var values = new Dictionary<string, string>
-                    {
-                        {"text", body}
-                    };
+                {
+                    {"text", body}
+                };
                 var json = JsonConvert.SerializeObject(values);
                 var objClint = new System.Net.Http.HttpClient();
                 System.Net.Http.HttpResponseMessage respon = await objClint.PostAsync(requestUri, new StringContent(json, System.Text.Encoding.UTF8, "application/json"));
@@ -98,9 +88,6 @@ namespace BridgeBot.Dialogs
             {
                 await context.PostAsync("Error:" + hre.Message);
             }
-            }
-            //
-
         }
     }
 }
